@@ -7,9 +7,8 @@ class Hotels extends Component {
       <div className='container border border-info-emphasis rounded'>
         <h2 className='text-center pt-3'>Oferty:</h2>
         <div>
-          <Hotel />
-          <Hotel />
-          <Hotel />
+          {this.props.hotels.map(hotel => <Hotel key={hotel.id} {...hotel} /> )}
+ 
         </div>
       </div>
     )
