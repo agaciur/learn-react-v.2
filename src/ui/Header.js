@@ -1,6 +1,6 @@
 import Searchbar from "./Searchbar"
 
-function Header() {
+function Header(props) {
   return (
     <div
       className='position-relative'
@@ -20,8 +20,8 @@ function Header() {
             backgroundColor: 'rgba(0, 0, 0, 0.6)',
             Zindex: '-10',
         }}></div>
-      <Searchbar />
+      <Searchbar onSearch={props.onSearch} />
     </div>
-  )
+  );
 }
 export default Header
