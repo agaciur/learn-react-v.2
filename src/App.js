@@ -3,6 +3,7 @@ import Header from "./ui/Header"
 import Menu from "./ui/Menu"
 import Hotels from "./ui/Hotels"
 import { Component } from "react"
+import LoadingIcon from "./ui/components/LoadingIcon"
 
 class App extends Component {
   hotels = [
@@ -33,29 +34,36 @@ class App extends Component {
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum reiciendis ipsam nesciunt culpa dolor in repellat fugiat maxime explicabo eos?",
       image: "https://cdn.pixabay.com/photo/2015/07/14/07/18/greece-844269_1280.jpg",
     },
-  ];
+  ]
 
   state = {
-    hotels: this.hotels
+    hotels: [],
+    loading:true,
   }
 
-  searchHandler(term) {
-    const hotels = [...this.hotels]
-      .filter(x => x.name
-          .toLowerCase()
-          .includes(term.toLowerCase()));
-    this.setState({ hotels });
+  searchHandler = term => {
+    const hotels = [...this.hotels].filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
+    this.setState({ hotels })
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        hotels: this.hotels,
+        loading: false,
+      })
+    }, 1000)
   }
 
   render() {
     return (
       <div className='App'>
-        <Header onSearch={(term) => this.searchHandler(term)} />
+        <Header onSearch={this.searchHandler} />
         <Menu />
-        <Hotels hotels={this.state.hotels} />
+        {this.state.loading ? <LoadingIcon /> : <Hotels hotels={this.state.hotels} />}
       </div>
     )
   }
 }
 
-export default App;
+export default App
