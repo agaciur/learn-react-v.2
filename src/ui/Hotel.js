@@ -1,4 +1,13 @@
+import PropTypes from "prop-types"
 function Hotel(props) {
+  const propTypes = {
+    name: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    rating: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  }
+
   return (
     <div className='m-3 border border-info-emphasis rounded m-1'>
       <div class='row g-0'>
@@ -26,7 +35,7 @@ function Hotel(props) {
                 <p className='pt-2'>{props.city}</p>
               </div>
               <p className='fs-5'>
-                Ocena: <span className="fs-4">{props.rating}</span>
+                Ocena: <span className='fs-4'>{props.rating}</span>
               </p>
             </div>
             <div class='d-grid gap-2 d-md-flex mb-3 justify-content-md-end'>
@@ -43,5 +52,5 @@ function Hotel(props) {
     </div>
   )
 }
-
+Hotel.propTypes = propTypes;
 export default Hotel
