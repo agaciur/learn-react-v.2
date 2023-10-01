@@ -1,4 +1,3 @@
-import Searchbar from "./Searchbar"
 
 function Header(props) {
   return (
@@ -20,7 +19,7 @@ function Header(props) {
             backgroundColor: 'rgba(0, 0, 0, 0.6)',
             Zindex: '-10',
         }}></div>
-      <Searchbar onSearch={props.onSearch} />
+        {props.children}
     </div>
   );
 }

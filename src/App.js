@@ -2,6 +2,9 @@ import "./App.css"
 import Header from "./ui/Header"
 import Menu from "./ui/Menu"
 import Hotels from "./ui/Hotels"
+import Searchbar from "./ui/Searchbar"
+import Footer from "./ui/Footer"
+import Layout from "./ui/Layout"
 import { Component } from "react"
 import LoadingIcon from "./ui/components/LoadingIcon"
 
@@ -38,7 +41,7 @@ class App extends Component {
 
   state = {
     hotels: [],
-    loading:true,
+    loading: true,
   }
 
   searchHandler = term => {
@@ -58,9 +61,16 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <Header onSearch={this.searchHandler} />
-        <Menu />
-        {this.state.loading ? <LoadingIcon /> : <Hotels hotels={this.state.hotels} />}
+        <Layout
+          header={
+            <Header>
+              <Searchbar onSearch={term => this.searchHandler(term)} />
+            </Header>
+          }
+          menu={<Menu />}
+          content={this.state.loading ? <LoadingIcon /> : <Hotels hotels={this.state.hotels} />}
+          footer={<Footer />}
+        />
       </div>
     )
   }

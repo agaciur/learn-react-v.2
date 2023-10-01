@@ -14,21 +14,23 @@ function Searchbar(props) {
   }
 
   return (
-    <div class='p-5 d-flex justify-content-center input-group'>
-      <input
-        value={term}
-        onKeyDown={onKeyDownHendler}
-        onChange={e => setTerm(e.target.value)}
-        type='text'
-        class='border border-secondary rounded-start-2 p-2'
-        placeholder='Szukaj...'
-      />
-      <button
-        onClick={search}
-        class='btn btn-secondary'
-        type='button'>
-        Szukaj
-      </button>
+    <div className='position-absolute top-50 start-50 translate-middle'>
+      <div className="d-flex">
+        <input
+          value={term}
+          onKeyDown={onKeyDownHendler}
+          onChange={e => setTerm(e.target.value)}
+          type='text'
+          className='border border-secondary m-0 p-2 '
+          placeholder='Szukaj...'
+        />
+        <button
+          onClick={search}
+          className='btn btn-secondary rounded-0 p-2 m-0'
+          type='button'>
+          Szukaj
+        </button>
+      </div>
     </div>
   )
 }
