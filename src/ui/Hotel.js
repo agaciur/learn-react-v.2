@@ -9,12 +9,12 @@ const propTypes = {
 }
 function Hotel(props) {
   return (
-    <div className='m-3 border border-info-emphasis rounded m-1'>
+    <div className='m-3 border border-info-emphasis m-1'>
       <div className='row g-0'>
         <div className='col-lg-5'>
           <img
             src={props.image}
-            className='img-fluid rounded-start'
+            className='img-fluid'
             style={{
               height: "100%",
               backgroundSize: "cover",
@@ -41,7 +41,7 @@ function Hotel(props) {
             <div className='d-grid gap-2 d-md-flex mb-3 justify-content-md-end'>
               <a
                 href='#'
-                className='btn btn-warning px-4'>
+                className={`btn btn-${props.theme} px-4`}>
                 Pokaż
               </a>
             </div>

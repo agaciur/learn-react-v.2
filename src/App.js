@@ -7,6 +7,7 @@ import Footer from "./ui/Footer"
 import Layout from "./ui/Layout"
 import { Component } from "react"
 import LoadingIcon from "./ui/components/LoadingIcon"
+import ThemeButton from "./ui/components/ThemeButton"
 
 class App extends Component {
   hotels = [
@@ -42,6 +43,7 @@ class App extends Component {
   state = {
     hotels: [],
     loading: true,
+    theme: "warning",
   }
 
   searchHandler = term => {
@@ -58,18 +60,39 @@ class App extends Component {
     }, 1000)
   }
 
+  changeTheme = () => {
+    const newTheme = this.state.theme === "warning" ? "danger" : "warning"
+    this.setState({ theme: newTheme });
+  }
+
   render() {
     return (
       <div className='App'>
         <Layout
           header={
             <Header>
-              <Searchbar onSearch={term => this.searchHandler(term)} />
+              <Searchbar
+                onSearch={term => this.searchHandler(term)}
+                theme={this.state.theme}></Searchbar>
             </Header>
           }
-          menu={<Menu />}
-          content={this.state.loading ? <LoadingIcon /> : <Hotels hotels={this.state.hotels} />}
-          footer={<Footer />}
+          menu={
+            <div>
+              <Menu />
+              <ThemeButton onChange={this.changeTheme} />
+            </div>
+          }
+          content={
+            this.state.loading ? (
+              <LoadingIcon theme={this.state.theme} />
+            ) : (
+              <Hotels
+                hotels={this.state.hotels}
+                theme={this.state.theme}
+              />
+            )
+          }
+          footer={<Footer theme={this.state.theme} />}
         />
       </div>
     )
