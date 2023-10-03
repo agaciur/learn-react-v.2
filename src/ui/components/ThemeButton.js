@@ -1,10 +1,16 @@
-export default function ThemeButton(props) {
+import { useContext } from "react"
+import ThemeContext from "../context/ThemeContext"
+
+export default function ThemeButton() {
+  const theme = useContext(ThemeContext)
   return (
-    <button className="text-success-emphasis d-flex pb-2 border-0 bg-transparent container" onClick={props.onChange} >
+    <button
+      className='text-white d-flex pb-2 border-0 bg-transparent container'
+      onClick={theme.changeTheme}>
       <svg
         xmlns='http://www.w3.org/2000/svg'
-        width='20'
-        height='20'
+        width='24'
+        height='24'
         fill='currentColor'
         className='bi bi-droplet-half '
         viewBox='0 0 16 16'>

@@ -1,7 +1,11 @@
 import { useState } from "react"
+import ThemeButton from "./components/ThemeButton"
+import ThemeContext from "./context/ThemeContext"
+import { useContext } from "react"
 
 function Searchbar(props) {
   const [term, setTerm] = useState("")
+  const theme = useContext(ThemeContext)
 
   const search = () => {
     props.onSearch(term)
@@ -15,7 +19,7 @@ function Searchbar(props) {
 
   return (
     <div className='position-absolute top-50 start-50 translate-middle'>
-      <div className="d-flex">
+      <div className='d-flex flex-row align-items-center'>
         <input
           value={term}
           onKeyDown={onKeyDownHendler}
@@ -24,12 +28,16 @@ function Searchbar(props) {
           className='border border-secondary m-0 p-2 '
           placeholder='Szukaj...'
         />
-        <button
-          onClick={search}
-          className={`btn btn-${props.theme} rounded-0 ms-1 p-2 m-0`}
-          type='button'>
-          Szukaj
-        </button>
+      
+            <button
+              onClick={search}
+              className={`btn btn-${theme.theme} rounded-0 ms-1 p-2 m-0`}
+              type='button'>
+              Szukaj
+            </button>
+      
+
+        <ThemeButton />
       </div>
     </div>
   )

@@ -7,9 +7,10 @@ import Footer from "./ui/Footer"
 import Layout from "./ui/Layout"
 import { Component } from "react"
 import LoadingIcon from "./ui/components/LoadingIcon"
-import ThemeButton from "./ui/components/ThemeButton"
+import ThemeContext from "./ui/context/ThemeContext"
 
 class App extends Component {
+  static contextType = ThemeContext
   hotels = [
     {
       id: 1,
@@ -62,38 +63,44 @@ class App extends Component {
 
   changeTheme = () => {
     const newTheme = this.state.theme === "warning" ? "danger" : "warning"
-    this.setState({ theme: newTheme });
+    this.setState({ theme: newTheme })
   }
 
   render() {
+    const header = (
+      <Header>
+        <Searchbar
+          onSearch={term => this.searchHandler(term)}
+          onChange={theme => this.changeTheme(theme)}></Searchbar>
+      </Header>
+    )
+
+    const menu = (
+      <div>
+        <Menu />
+      </div>
+    )
+
+    const content = (
+      this.state.loading ? 
+      <LoadingIcon /> : 
+      <Hotels hotels={this.state.hotels} />)
+
+    const footer = <Footer />
+
     return (
       <div className='App'>
-        <Layout
-          header={
-            <Header>
-              <Searchbar
-                onSearch={term => this.searchHandler(term)}
-                theme={this.state.theme}></Searchbar>
-            </Header>
-          }
-          menu={
-            <div>
-              <Menu />
-              <ThemeButton onChange={this.changeTheme} />
-            </div>
-          }
-          content={
-            this.state.loading ? (
-              <LoadingIcon theme={this.state.theme} />
-            ) : (
-              <Hotels
-                hotels={this.state.hotels}
-                theme={this.state.theme}
-              />
-            )
-          }
-          footer={<Footer theme={this.state.theme} />}
-        />
+        <ThemeContext.Provider value={{
+          theme: this.state.theme,
+          changeTheme: this.changeTheme
+          }}>
+          <Layout
+            header={header}
+            menu={menu}
+            content={content}
+            footer={footer}
+          />
+        </ThemeContext.Provider>
       </div>
     )
   }

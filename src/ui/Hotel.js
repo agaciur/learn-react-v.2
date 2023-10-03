@@ -1,4 +1,6 @@
 import PropTypes from "prop-types"
+import ThemeContext from "./context/ThemeContext"
+import { useContext } from "react"
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -8,6 +10,7 @@ const propTypes = {
   image: PropTypes.string.isRequired,
 }
 function Hotel(props) {
+  const theme = useContext(ThemeContext)
   return (
     <div className='m-3 border border-info-emphasis m-1'>
       <div className='row g-0'>
@@ -41,7 +44,7 @@ function Hotel(props) {
             <div className='d-grid gap-2 d-md-flex mb-3 justify-content-md-end'>
               <a
                 href='#'
-                className={`btn btn-${props.theme} px-4`}>
+                className={`btn btn-${theme.theme} px-4`}>
                 Pokaż
               </a>
             </div>
