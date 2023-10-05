@@ -8,9 +8,8 @@ import Layout from "./ui/Layout"
 import { Component } from "react"
 import LoadingIcon from "./ui/components/LoadingIcon"
 import ThemeContext from "./ui/context/ThemeContext"
-
+import AuthContext from "./ui/context/AuthContext"
 class App extends Component {
-  static contextType = ThemeContext
   hotels = [
     {
       id: 1,
@@ -45,6 +44,7 @@ class App extends Component {
     hotels: [],
     loading: true,
     theme: "warning",
+    isAuthenticated: false,
   }
 
   searchHandler = term => {
@@ -81,26 +81,31 @@ class App extends Component {
       </div>
     )
 
-    const content = (
-      this.state.loading ? 
-      <LoadingIcon /> : 
-      <Hotels hotels={this.state.hotels} />)
+    const content = this.state.loading ? <LoadingIcon /> : <Hotels hotels={this.state.hotels} />
 
     const footer = <Footer />
 
     return (
       <div className='App'>
-        <ThemeContext.Provider value={{
-          theme: this.state.theme,
-          changeTheme: this.changeTheme
+        <AuthContext.Provider
+          value={{
+            isAuthenticated: this.state.isAuthenticated,
+            login: () => this.setState({ isAuthenticated: true }),
+            logout: () => this.setState({ isAuthenticated: false }),
           }}>
-          <Layout
-            header={header}
-            menu={menu}
-            content={content}
-            footer={footer}
-          />
-        </ThemeContext.Provider>
+          <ThemeContext.Provider
+            value={{
+              theme: this.state.theme,
+              changeTheme: this.changeTheme,
+            }}>
+            <Layout
+              header={header}
+              menu={menu}
+              content={content}
+              footer={footer}
+            />
+          </ThemeContext.Provider>
+        </AuthContext.Provider>
       </div>
     )
   }
