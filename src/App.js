@@ -48,7 +48,7 @@ class App extends Component {
   }
 
   searchHandler = term => {
-    const hotels = [...this.hotels].filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
+    const hotels = [...this.hotels].filter(hotel => hotel.name.toLowerCase().includes(term.toLowerCase()))
     this.setState({ hotels })
   }
 
