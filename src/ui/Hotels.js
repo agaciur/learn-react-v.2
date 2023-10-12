@@ -1,10 +1,19 @@
 import Hotel from "./Hotel"
 import React from "react"
+import { useMemo } from 'react'
+
+const slowFunction = count => {
+  for (let i = 0; i < 12000000; i++) {}
+  return count
+}
 
 function Hotels(props) {
+  const count = useMemo(() => {
+    return slowFunction(props.hotels.length)
+  }, [props.hotels.length])
   return (
     <div className='container border border-info-emphasis'>
-      <h2 className='text-center pt-3'>Oferty:</h2>
+      <h2 className='text-center pt-3'>Oferty:({count})</h2>
       <div>
         {props.hotels.map(hotel => (
           <Hotel
@@ -22,4 +31,5 @@ const areEqual = (prevProps, nextProps) => {
   return prevProps.hotels === nextProps.hotels
 }
 
-export default React.memo(Hotels, areEqual)
+// export default React.memo(Hotels, areEqual)
+export default Hotels
