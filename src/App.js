@@ -5,10 +5,11 @@ import Hotels from "./ui/Hotels"
 import Searchbar from "./ui/Searchbar"
 import Footer from "./ui/Footer"
 import Layout from "./ui/Layout"
-import { useEffect, useReducer } from "react"
+import { useCallback, useEffect, useReducer } from "react"
 import LoadingIcon from "./ui/components/LoadingIcon"
 import ThemeContext from "./ui/context/ThemeContext"
 import AuthContext from "./ui/context/AuthContext"
+import BestHotel from "./ui/BestHotel"
 
 const backedHotels = [
   {
@@ -73,6 +74,14 @@ function App() {
     dispatch({ type: "set-hotels", hotels: newHotels })
   }
 
+  const getBestHotel = useCallback(() => {
+    if (state.hotels.length < 2) {
+      return null
+    } else {
+      return state.hotels.sort((a, b) => (a.rating > b.rating ? -1 : 1))[0]
+    }
+  }, [state.hotels])
+
   useEffect(() => {
     setTimeout(() => {
       dispatch({ type: "set-hotels", hotels: backedHotels })
@@ -92,7 +101,14 @@ function App() {
     </div>
   )
 
-  const content = state.loading ? <LoadingIcon /> : <Hotels hotels={state.hotels} />
+  const content = state.loading ? (
+    <LoadingIcon />
+  ) : (
+    <>
+      <BestHotel getHotel={getBestHotel} />
+      <Hotels hotels={state.hotels} />
+    </>
+  )
   const footer = <Footer />
 
   return (
