@@ -6,7 +6,7 @@ function Header(props) {
       style={{
         backgroundImage:
           'url("https://carter.eu/blog/wp-content/uploads/2021/01/JOALI-Malediwy-wakacje.jpg")',
-          height: '30vh',
+          height: '250px',
           backgroundSize: 'cover',
           backgroundAttachment: 'fixed',
           backgroundPosition: 'bottom',

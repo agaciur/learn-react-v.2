@@ -10,6 +10,8 @@ import LoadingIcon from "./ui/components/LoadingIcon"
 import ThemeContext from "./ui/context/ThemeContext"
 import AuthContext from "./ui/context/AuthContext"
 import BestHotel from "./ui/BestHotel"
+import InspiringQuote from "./ui/InspiringQuote"
+
 
 const backedHotels = [
   {
@@ -91,6 +93,7 @@ function App() {
 
   const header = (
     <Header>
+       <InspiringQuote />
       <Searchbar onSearch={term => searchHandler(term)}></Searchbar>
     </Header>
   )
