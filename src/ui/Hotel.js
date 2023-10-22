@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"
 import ThemeContext from "./context/ThemeContext"
 import { useContext } from "react"
+import useAuth from "./hooks/useAuth"
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -10,6 +11,7 @@ const propTypes = {
   image: PropTypes.string.isRequired,
 }
 function Hotel(props) {
+  const [auth] = useAuth()
   const theme = useContext(ThemeContext)
   return (
     <div className='m-3 border border-info-emphasis m-1'>
@@ -49,6 +51,9 @@ function Hotel(props) {
               </a>
             </div>
             <p className='card-text'>{props.description}</p>
+            { auth 
+            ? <p>Dostępność: 4 pokoje</p> 
+            : <p>Dostępność: zaloguj się!</p> }
           </div>
         </div>
       </div>

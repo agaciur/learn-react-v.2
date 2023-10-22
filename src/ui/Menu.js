@@ -1,17 +1,17 @@
 import { useContext } from "react"
 import AuthContext from "./context/AuthContext"
+import useAuth from "./hooks/useAuth"
 
 function Menu() {
-  const auth = useContext(AuthContext)
-
-  const login = e => {
+  const [auth, setAuth] = useAuth();
+    const login = e => {
     e.preventDefault()
-    auth.login()
+    setAuth(true)
   }
 
   const logout = e => {
     e.preventDefault()
-    auth.logout()
+    setAuth(false)
   }
 
   return (
@@ -25,7 +25,7 @@ function Menu() {
           Home
         </a>
       </li>
-      {auth.isAuthenticated ? (
+      {auth ? (
         <li>
           <a
             href=''

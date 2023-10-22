@@ -47,7 +47,7 @@ const initialState = {
   hotels: [],
   loading: true,
   theme: "warning",
-  isAuthenticated: false,
+  isAuthenticated: true,
 }
 
 const reducer = (state, action) => {
