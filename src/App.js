@@ -11,6 +11,8 @@ import ThemeContext from "./ui/context/ThemeContext"
 import AuthContext from "./ui/context/AuthContext"
 import BestHotel from "./ui/BestHotel"
 import InspiringQuote from "./ui/InspiringQuote"
+import useStateStorage from "./ui/hooks/useStateStorage"
+import LastHotel from "./ui/LastHotel"
 
 
 const backedHotels = [
@@ -47,7 +49,7 @@ const initialState = {
   hotels: [],
   loading: true,
   theme: "warning",
-  isAuthenticated: true,
+  isAuthenticated: false,
 }
 
 const reducer = (state, action) => {
@@ -70,6 +72,7 @@ const reducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [lastHotel, setLastHotel] = useStateStorage('last-hotel',null)
 
   const searchHandler = term => {
     const newHotels = [...backedHotels].filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
@@ -83,6 +86,11 @@ function App() {
       return state.hotels.sort((a, b) => (a.rating > b.rating ? -1 : 1))[0]
     }
   }, [state.hotels])
+
+  const openHotel = (hotel) => {
+    setLastHotel(hotel)
+  }
+  const removeLastHotel = () => setLastHotel(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -108,8 +116,9 @@ function App() {
     <LoadingIcon />
   ) : (
     <>
+      {lastHotel ?  <LastHotel {...lastHotel} onRemove={removeLastHotel} /> : null}
       {getBestHotel() ? <BestHotel getHotel={getBestHotel} /> : null}
-      <Hotels hotels={state.hotels} />
+      <Hotels onOpen={openHotel} hotels={state.hotels} />
     </>
   )
   const footer = <Footer />

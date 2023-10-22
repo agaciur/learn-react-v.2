@@ -17,6 +17,7 @@ function Hotels(props) {
       <div>
         {props.hotels.map(hotel => (
           <Hotel
+            onOpen={props.onOpen}
             key={hotel.id}
             {...hotel}
             theme={props.theme}

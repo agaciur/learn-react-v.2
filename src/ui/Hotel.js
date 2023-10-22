@@ -13,6 +13,12 @@ const propTypes = {
 function Hotel(props) {
   const [auth] = useAuth()
   const theme = useContext(ThemeContext)
+
+const clickHandler = e => {
+  e.preventDefault();
+  props.onOpen(props)
+}
+
   return (
     <div className='m-3 border border-info-emphasis m-1'>
       <div className='row g-0'>
@@ -46,6 +52,7 @@ function Hotel(props) {
             <div className='d-grid gap-2 d-md-flex mb-3 justify-content-md-end'>
               <a
                 href='#'
+                onClick={clickHandler}
                 className={`btn btn-${theme.theme} px-4`}>
                 Pokaż
               </a>
