@@ -13,6 +13,7 @@ import BestHotel from "./ui/BestHotel"
 import InspiringQuote from "./ui/InspiringQuote"
 import useStateStorage from "./ui/hooks/useStateStorage"
 import LastHotel from "./ui/LastHotel"
+import useWebsiteTitle from "./ui/hooks/useWebsiteTitle"
 
 
 const backedHotels = [
@@ -73,6 +74,7 @@ const reducer = (state, action) => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [lastHotel, setLastHotel] = useStateStorage('last-hotel',null)
+  useWebsiteTitle('Strona główna')
 
   const searchHandler = term => {
     const newHotels = [...backedHotels].filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
