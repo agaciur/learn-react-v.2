@@ -1,20 +1,17 @@
 import "./App.css"
+import { BrowserRouter as Router, Route } from "react-router-dom"
 import Header from "./ui/Header"
 import Menu from "./ui/Menu"
-import Hotels from "./ui/Hotels"
 import Searchbar from "./ui/Searchbar"
 import Footer from "./ui/Footer"
 import Layout from "./ui/Layout"
-import { useCallback, useEffect, useReducer } from "react"
-import LoadingIcon from "./ui/components/LoadingIcon"
 import ThemeContext from "./ui/context/ThemeContext"
 import AuthContext from "./ui/context/AuthContext"
-import BestHotel from "./ui/BestHotel"
 import InspiringQuote from "./ui/InspiringQuote"
-import useStateStorage from "./ui/hooks/useStateStorage"
-import LastHotel from "./ui/LastHotel"
-import useWebsiteTitle from "./ui/hooks/useWebsiteTitle"
-
+import { useReducer } from "react"
+import { reducer, initialState } from "./ui/reducer"
+import Home from "./ui/pages/Home"
+import ReducerContext from "./ui/context/ReducerContext"
 
 const backedHotels = [
   {
@@ -46,64 +43,17 @@ const backedHotels = [
   },
 ]
 
-const initialState = {
-  hotels: [],
-  loading: true,
-  theme: "warning",
-  isAuthenticated: false,
-}
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "change-theme":
-      const theme = state.theme === "danger" ? "warning" : "danger"
-      return { ...state, theme }
-    case "set-hotels":
-      return { ...state, hotels: action.hotels }
-    case "set-loading":
-      return { ...state, loading: action.loading }
-    case "login":
-      return { ...state, isAuthenticated: true }
-    case "logout":
-      return { ...state, isAuthenticated: false }
-    default:
-      throw new Error("Nie ma takiej akcji" + action.type)
-  }
-}
-
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [lastHotel, setLastHotel] = useStateStorage('last-hotel',null)
-  useWebsiteTitle('Strona główna')
 
   const searchHandler = term => {
     const newHotels = [...backedHotels].filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
     dispatch({ type: "set-hotels", hotels: newHotels })
   }
 
-  const getBestHotel = useCallback(() => {
-    if (state.hotels.length < 2) {
-      return null
-    } else {
-      return state.hotels.sort((a, b) => (a.rating > b.rating ? -1 : 1))[0]
-    }
-  }, [state.hotels])
-
-  const openHotel = (hotel) => {
-    setLastHotel(hotel)
-  }
-  const removeLastHotel = () => setLastHotel(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch({ type: "set-hotels", hotels: backedHotels })
-      dispatch({ type: "set-loading", loading: false })
-    }, 1000)
-  }, [])
-
   const header = (
     <Header>
-       <InspiringQuote />
+      <InspiringQuote />
       <Searchbar onSearch={term => searchHandler(term)}></Searchbar>
     </Header>
   )
@@ -114,37 +64,48 @@ function App() {
     </div>
   )
 
-  const content = state.loading ? (
-    <LoadingIcon />
-  ) : (
+  const content = (
     <>
-      {lastHotel ?  <LastHotel {...lastHotel} onRemove={removeLastHotel} /> : null}
-      {getBestHotel() ? <BestHotel getHotel={getBestHotel} /> : null}
-      <Hotels onOpen={openHotel} hotels={state.hotels} />
+      <Route
+        exact
+        path='/'>
+        <Home />
+      </Route>
+
+      <Route path='/hotel/:id'>
+        <h1>To jest hotel</h1>
+      </Route>
     </>
   )
   const footer = <Footer />
 
   return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated: state.isAuthenticated,
-        login: () => dispatch({ type: "login" }),
-        logout: () => dispatch({ type: "logout" }),
-      }}>
-      <ThemeContext.Provider
+    <Router>
+      <AuthContext.Provider
         value={{
-          theme: state.theme,
-          changeTheme: () => dispatch({ type: "change-theme" }),
+          isAuthenticated: state.isAuthenticated,
+          login: () => dispatch({ type: "login" }),
+          logout: () => dispatch({ type: "logout" }),
         }}>
-        <Layout
-          header={header}
-          menu={menu}
-          content={content}
-          footer={footer}
-        />
-      </ThemeContext.Provider>
-    </AuthContext.Provider>
+        <ThemeContext.Provider
+          value={{
+            theme: state.theme,
+            changeTheme: () => dispatch({ type: "change-theme" }),
+          }}>
+          <ReducerContext.Provider value={{
+            state: state,
+            dispatch: dispatch
+          }}>
+            <Layout
+              header={header}
+              menu={menu}
+              content={content}
+              footer={footer}
+            />
+          </ReducerContext.Provider>
+        </ThemeContext.Provider>
+      </AuthContext.Provider>
+    </Router>
   )
 }
 

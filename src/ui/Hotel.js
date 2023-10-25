@@ -2,6 +2,7 @@ import PropTypes from "prop-types"
 import ThemeContext from "./context/ThemeContext"
 import { useContext } from "react"
 import useAuth from "./hooks/useAuth"
+import { Link } from "react-router-dom"
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -14,10 +15,10 @@ function Hotel(props) {
   const [auth] = useAuth()
   const theme = useContext(ThemeContext)
 
-const clickHandler = e => {
-  e.preventDefault();
-  props.onOpen(props)
-}
+  const clickHandler = e => {
+    // e.preventDefault()
+    props.onOpen(props)
+  }
 
   return (
     <div className='m-3 border border-info-emphasis m-1'>
@@ -50,17 +51,15 @@ const clickHandler = e => {
               </p>
             </div>
             <div className='d-grid gap-2 d-md-flex mb-3 justify-content-md-end'>
-              <a
-                href='#'
+              <Link
                 onClick={clickHandler}
+                to={`hotel/${props.id}`}
                 className={`btn btn-${theme.theme} px-4`}>
                 Pokaż
-              </a>
+              </Link>
             </div>
             <p className='card-text'>{props.description}</p>
-            { auth 
-            ? <p>Dostępność: 4 pokoje</p> 
-            : <p>Dostępność: zaloguj się!</p> }
+            {auth ? <p>Dostępność: 4 pokoje</p> : <p>Dostępność: zaloguj się!</p>}
           </div>
         </div>
       </div>
