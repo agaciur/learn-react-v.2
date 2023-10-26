@@ -1,5 +1,5 @@
 import "./App.css"
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Header from "./ui/Header"
 import Menu from "./ui/Menu"
 import Searchbar from "./ui/Searchbar"
@@ -12,6 +12,8 @@ import { useReducer } from "react"
 import { reducer, initialState } from "./ui/reducer"
 import Home from "./ui/pages/Home"
 import ReducerContext from "./ui/context/ReducerContext"
+import Hotel from "./ui/pages/Hotel"
+import LoadingIcon from "./ui/components/LoadingIcon"
 
 const backedHotels = [
   {
@@ -65,17 +67,19 @@ function App() {
   )
 
   const content = (
-    <>
-      <Route
-        exact
-        path='/'>
-        <Home />
-      </Route>
-
-      <Route path='/hotel/:id'>
-        <h1>To jest hotel</h1>
-      </Route>
-    </>
+    <div>
+      <Switch>
+        <Route
+          path='/hotele/:id'
+          component={Hotel}
+        />
+        <Route
+          path='/'
+          component={Home}
+        />
+      </Switch>
+      {state.loading ? <LoadingIcon /> : null}
+    </div>
   )
   const footer = <Footer />
 
@@ -92,10 +96,11 @@ function App() {
             theme: state.theme,
             changeTheme: () => dispatch({ type: "change-theme" }),
           }}>
-          <ReducerContext.Provider value={{
-            state: state,
-            dispatch: dispatch
-          }}>
+          <ReducerContext.Provider
+            value={{
+              state: state,
+              dispatch: dispatch,
+            }}>
             <Layout
               header={header}
               menu={menu}

@@ -53,7 +53,7 @@ function Hotel(props) {
             <div className='d-grid gap-2 d-md-flex mb-3 justify-content-md-end'>
               <Link
                 onClick={clickHandler}
-                to={`hotel/${props.id}`}
+                to={`hotele/${props.id}`}
                 className={`btn btn-${theme.theme} px-4`}>
                 Pokaż
               </Link>
