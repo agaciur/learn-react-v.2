@@ -13,50 +13,15 @@ import { reducer, initialState } from "./ui/reducer"
 import Home from "./ui/pages/Home"
 import ReducerContext from "./ui/context/ReducerContext"
 import Hotel from "./ui/pages/Hotel"
-import LoadingIcon from "./ui/components/LoadingIcon"
-
-const backedHotels = [
-  {
-    id: 1,
-    name: "Hotel pod bananowcem",
-    city: "Funcial",
-    rating: "8.8",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum reiciendis ipsam nesciunt culpa dolor in repellat fugiat maxime explicabo eos?",
-    image: "https://cdn.pixabay.com/photo/2016/08/26/20/30/hotel-1623064_1280.jpg",
-  },
-  {
-    id: 2,
-    name: "Hotel pod zorzami",
-    city: "Oslo",
-    rating: "8.3",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum reiciendis ipsam nesciunt culpa dolor in repellat fugiat maxime explicabo eos?",
-    image: "https://cdn.pixabay.com/photo/2021/12/11/07/59/hotel-6862159_1280.jpg",
-  },
-  {
-    id: 3,
-    name: "Odskocznia nad morzem",
-    city: "Ateny",
-    rating: "9.1",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum reiciendis ipsam nesciunt culpa dolor in repellat fugiat maxime explicabo eos?",
-    image: "https://cdn.pixabay.com/photo/2015/07/14/07/18/greece-844269_1280.jpg",
-  },
-]
+import Search from "./ui/pages/Search"
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const searchHandler = term => {
-    const newHotels = [...backedHotels].filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
-    dispatch({ type: "set-hotels", hotels: newHotels })
-  }
-
   const header = (
     <Header>
       <InspiringQuote />
-      <Searchbar onSearch={term => searchHandler(term)}></Searchbar>
+      <Searchbar />
     </Header>
   )
 
@@ -74,11 +39,14 @@ function App() {
           component={Hotel}
         />
         <Route
+          path='/wyszukaj/:term'
+          component={Search}
+        />
+        <Route
           path='/'
           component={Home}
         />
       </Switch>
-      {state.loading ? <LoadingIcon /> : null}
     </div>
   )
   const footer = <Footer />

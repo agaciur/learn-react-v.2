@@ -2,14 +2,16 @@ import { useState, useRef, useEffect } from "react"
 import ThemeButton from "./components/ThemeButton"
 import ThemeContext from "./context/ThemeContext"
 import { useContext } from "react"
+import { useHistory } from "react-router-dom"
 
 function Searchbar(props) {
   const [term, setTerm] = useState("")
   const theme = useContext(ThemeContext)
   const searchRef = useRef()
+  const history = useHistory()
 
   const search = () => {
-    props.onSearch(term)
+    history.push(`wyszukaj/${term}`);
   }
 
   const onKeyDownHendler = e => {
