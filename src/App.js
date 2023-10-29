@@ -17,6 +17,7 @@ import Search from "./ui/pages/Search"
 import NotFound from "./ui/pages/NotFound"
 import Login from "./ui/pages/Auth/Login"
 import AuthenticatedRoute from "./ui/components/AuthenticatedRoute"
+import ErrorBoundary from "./hoc/ErrorBoundary"
 const Profile = lazy(() => import("./ui/pages/Profile"))
 
 function App() {
@@ -37,32 +38,34 @@ function App() {
 
   const content = (
     <div>
-      <Suspense fallback={<p className="text-center">Ładowanie...</p>}>
-        <Switch>
-          <AuthenticatedRoute
-            path='/profil'
-            component={Profile}
-          />
-          <Route
-            path='/hotele/:id'
-            component={Hotel}
-          />
-          <Route
-            path='/wyszukaj/:term?'
-            component={Search}
-          />
-          <Route
-            path='/zaloguj'
-            component={Login}
-          />
-          <Route
-            path='/'
-            exact
-            component={Home}
-          />
-          <Route component={NotFound} />
-        </Switch>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<p className='text-center'>Ładowanie...</p>}>
+          <Switch>
+            <AuthenticatedRoute
+              path='/profil'
+              component={Profile}
+            />
+            <Route
+              path='/hotele/:id'
+              component={Hotel}
+            />
+            <Route
+              path='/wyszukaj/:term?'
+              component={Search}
+            />
+            <Route
+              path='/zaloguj'
+              component={Login}
+            />
+            <Route
+              path='/'
+              exact
+              component={Home}
+            />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   )
   const footer = <Footer />

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const LastHotel = props => {
   return (
     <div className='container card bg-success-subtle mb-3'>
@@ -7,13 +9,18 @@ const LastHotel = props => {
           <h5 className='card-title'>{props.name}</h5>
           <p className='pt-2'>{props.city}</p>
         </div>
-        <div style={{width: '100px'}} className="ms-auto d-flex justify-content-between">
-          <a
-            href='#'
+        <div
+          style={{ width: "100px" }}
+          className='ms-auto d-flex justify-content-between'>
+          <Link
+            to={`/hotele/${props.id}`}
             className='btn btn-sm btn-dark'>
             Tak
-          </a>
-          <button onClick={props.onRemove} className="btn btn-sm btn-dark">
+          </Link>
+
+          <button
+            onClick={props.onRemove}
+            className='btn btn-sm btn-dark'>
             Nie
           </button>
         </div>
@@ -21,4 +28,4 @@ const LastHotel = props => {
     </div>
   )
 }
-export default LastHotel;
+export default LastHotel

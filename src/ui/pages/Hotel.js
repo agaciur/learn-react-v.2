@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import LoadingIcon from "../components/Atoms/LoadingIcon"
+import useWebsiteTitle from "../hooks/useWebsiteTitle"
 
 export default function Hotel(props) {
   const { id } = useParams()
   const [hotel, setHotel] = useState({})
-
   const [loading, setLoading] = useState(true)
+ const setTitle = useWebsiteTitle()
 
   const fetchHotel = () => {
     setHotel({
@@ -18,6 +19,7 @@ export default function Hotel(props) {
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum reiciendis ipsam nesciunt culpa dolor in repellat fugiat maxime explicabo eos?",
       image: "https://cdn.pixabay.com/photo/2021/12/11/07/59/hotel-6862159_1280.jpg",
     })
+    setTitle('Hotel pod zorzami')
     setLoading(false)
   }
 
