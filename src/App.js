@@ -15,6 +15,7 @@ import ReducerContext from "./ui/context/ReducerContext"
 import Hotel from "./ui/pages/Hotel"
 import Search from "./ui/pages/Search"
 import Profile from "./ui/pages/Profile"
+import NotFound from "./ui/pages/NotFound"
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -40,7 +41,7 @@ function App() {
           component={Hotel}
         />
         <Route
-          path='/wyszukaj/:term'
+          path='/wyszukaj/:term?'
           component={Search}
         />
         <Route
@@ -49,8 +50,10 @@ function App() {
         />
         <Route
           path='/'
+          exact
           component={Home}
         />
+        <Route component={NotFound} />
       </Switch>
     </div>
   )
