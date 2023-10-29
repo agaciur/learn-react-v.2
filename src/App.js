@@ -16,6 +16,8 @@ import Hotel from "./ui/pages/Hotel"
 import Search from "./ui/pages/Search"
 import Profile from "./ui/pages/Profile"
 import NotFound from "./ui/pages/NotFound"
+import Login from "./ui/pages/Auth/Login"
+import AuthenticatedRoute from "./ui/components/AuthenticatedRoute"
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -36,6 +38,10 @@ function App() {
   const content = (
     <div>
       <Switch>
+        <AuthenticatedRoute
+          path='/profil'
+          component={Profile}
+        />
         <Route
           path='/hotele/:id'
           component={Hotel}
@@ -45,8 +51,8 @@ function App() {
           component={Search}
         />
         <Route
-          path='/profil'
-          component={Profile}
+          path='/zaloguj'
+          component={Login}
         />
         <Route
           path='/'

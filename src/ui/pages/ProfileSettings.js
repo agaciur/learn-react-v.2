@@ -12,7 +12,7 @@ export default function ProfileSettings(props) {
           <input
             type='email'
             className='form-control'
-            placeholder='adres@email.com'
+            value='adres@email.com'
           />
         </div>
         <div class='mb-3'>
