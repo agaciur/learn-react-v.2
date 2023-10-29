@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
-import ThemeContext from "./context/ThemeContext"
+import ThemeContext from "../../context/ThemeContext"
 import { useContext } from "react"
-import useAuth from "./hooks/useAuth"
+import useAuth from "../../hooks/useAuth"
 import { Link } from "react-router-dom"
 
 const propTypes = {

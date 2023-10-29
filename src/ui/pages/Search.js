@@ -5,6 +5,6 @@ export default function Search(props) {
 //   const searchHandler = term => {
     // const newHotels = [...backedHotels].filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
     return (
-        <div>Wyniki dla frazy "{term}":</div>
+        <div className="container">Wyniki dla frazy "{term}":</div>
     )
   }

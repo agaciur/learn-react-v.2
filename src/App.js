@@ -1,23 +1,23 @@
 import "./App.css"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import Header from "./ui/Header"
-import Menu from "./ui/Menu"
-import Searchbar from "./ui/Searchbar"
-import Footer from "./ui/Footer"
-import Layout from "./ui/Layout"
+import Header from "./ui/components/Organisms/Header"
+import Menu from "./ui/components/Organisms/Menu"
+import Searchbar from "./ui/components/Molecules/Searchbar"
+import Footer from "./ui/components/Organisms/Footer"
+import Layout from "./ui/components/Layout"
 import ThemeContext from "./ui/context/ThemeContext"
 import AuthContext from "./ui/context/AuthContext"
-import InspiringQuote from "./ui/InspiringQuote"
-import { useReducer } from "react"
-import { reducer, initialState } from "./ui/reducer"
+import InspiringQuote from "./ui/components/Atoms/InspiringQuote"
+import { useReducer, lazy, Suspense } from "react"
+import { reducer, initialState } from "./ui/components/reducer"
 import Home from "./ui/pages/Home"
 import ReducerContext from "./ui/context/ReducerContext"
 import Hotel from "./ui/pages/Hotel"
 import Search from "./ui/pages/Search"
-import Profile from "./ui/pages/Profile"
 import NotFound from "./ui/pages/NotFound"
 import Login from "./ui/pages/Auth/Login"
 import AuthenticatedRoute from "./ui/components/AuthenticatedRoute"
+const Profile = lazy(() => import("./ui/pages/Profile"))
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -37,30 +37,32 @@ function App() {
 
   const content = (
     <div>
-      <Switch>
-        <AuthenticatedRoute
-          path='/profil'
-          component={Profile}
-        />
-        <Route
-          path='/hotele/:id'
-          component={Hotel}
-        />
-        <Route
-          path='/wyszukaj/:term?'
-          component={Search}
-        />
-        <Route
-          path='/zaloguj'
-          component={Login}
-        />
-        <Route
-          path='/'
-          exact
-          component={Home}
-        />
-        <Route component={NotFound} />
-      </Switch>
+      <Suspense fallback={<p className="text-center">Ładowanie...</p>}>
+        <Switch>
+          <AuthenticatedRoute
+            path='/profil'
+            component={Profile}
+          />
+          <Route
+            path='/hotele/:id'
+            component={Hotel}
+          />
+          <Route
+            path='/wyszukaj/:term?'
+            component={Search}
+          />
+          <Route
+            path='/zaloguj'
+            component={Login}
+          />
+          <Route
+            path='/'
+            exact
+            component={Home}
+          />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
     </div>
   )
   const footer = <Footer />

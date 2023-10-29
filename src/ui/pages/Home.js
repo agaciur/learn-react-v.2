@@ -1,10 +1,10 @@
-import Hotels from "../Hotels"
+import Hotels from "../components/Organisms/Hotels"
 import { useState, useEffect } from "react"
-import BestHotel from "../BestHotel"
+import BestHotel from "../components/Molecules/BestHotel"
 import useStateStorage from "../hooks/useStateStorage"
-import LastHotel from "../LastHotel"
+import LastHotel from "../components/Molecules/LastHotel"
 import useWebsiteTitle from "../hooks/useWebsiteTitle"
-import LoadingIcon from "../components/LoadingIcon"
+import LoadingIcon from "../components/Atoms/LoadingIcon"
 
 const backedHotels = [
   {

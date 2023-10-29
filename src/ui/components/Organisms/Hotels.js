@@ -1,6 +1,6 @@
-import Hotel from "./Hotel"
+import Hotel from "../Molecules/Hotel"
 import React from "react"
-import { useMemo } from 'react'
+import { useMemo } from "react"
 
 const slowFunction = count => {
   for (let i = 0; i < 12000000; i++) {}

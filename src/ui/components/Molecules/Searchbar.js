@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react"
-import ThemeButton from "./components/ThemeButton"
-import ThemeContext from "./context/ThemeContext"
+import ThemeButton from "../Atoms/ThemeButton"
+import ThemeContext from "../../context/ThemeContext"
 import { useContext } from "react"
 import { useHistory } from "react-router-dom"
 
@@ -11,7 +11,7 @@ function Searchbar(props) {
   const history = useHistory()
 
   const search = () => {
-    history.push(`wyszukaj/${term}`);
+    history.push(`wyszukaj/${term}`)
   }
 
   const onKeyDownHendler = e => {

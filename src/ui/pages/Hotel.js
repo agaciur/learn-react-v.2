@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import LoadingIcon from "../components/LoadingIcon"
+import LoadingIcon from "../components/Atoms/LoadingIcon"
 
 export default function Hotel(props) {
   const { id } = useParams()

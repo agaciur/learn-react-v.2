@@ -1,4 +1,4 @@
-import useAuth from "./hooks/useAuth"
+import useAuth from "../../hooks/useAuth"
 import { Link, NavLink } from "react-router-dom"
 
 function Menu() {
@@ -19,7 +19,8 @@ function Menu() {
       style={{ listStyleType: "none" }}>
       <li>
         <NavLink
-          to='/' exact
+          to='/'
+          exact
           className='text-info-emphasis ms-3 text-decoration-none'
           activeClassName='text-decoration-underline'>
           Home
@@ -31,7 +32,6 @@ function Menu() {
             <NavLink
               className='text-decoration-none text-info-emphasis ms-3'
               to='/profil'
-              
               activeClassName='text-decoration-underline'>
               Mój profil
             </NavLink>
