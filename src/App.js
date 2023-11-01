@@ -16,8 +16,9 @@ import Hotel from "./ui/pages/Hotel"
 import Search from "./ui/pages/Search"
 import NotFound from "./ui/pages/NotFound"
 import Login from "./ui/pages/Auth/Login"
-import AuthenticatedRoute from "./ui/components/AuthenticatedRoute"
+import AuthenticatedRoute from "./hoc/AuthenticatedRoute"
 import ErrorBoundary from "./hoc/ErrorBoundary"
+import AddHotel from "./ui/components/Molecules/AddHotel"
 const Profile = lazy(() => import("./ui/pages/Profile"))
 
 function App() {
@@ -41,6 +42,10 @@ function App() {
       <ErrorBoundary>
         <Suspense fallback={<p className='text-center'>Ładowanie...</p>}>
           <Switch>
+          <AuthenticatedRoute
+              path='/profil/hotele/dodaj'
+              component={AddHotel}
+            />
             <AuthenticatedRoute
               path='/profil'
               component={Profile}
