@@ -51,7 +51,7 @@ export default function ProfileSettings(props) {
           <div className='valid-feedback'>Poprawny email</div>
 
         </div>
-        <div class='mb-3'>
+        <div className='mb-3'>
           <label>Hasło:</label>
           <input
             type='password'

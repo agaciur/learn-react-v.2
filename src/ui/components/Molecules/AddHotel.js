@@ -1,185 +1,156 @@
-import { useState, useRef } from "react"
+import { useState } from "react"
 import LoadingButton from "../Atoms/LoadingButton"
+import Input from "../Atoms/Input"
+import { validate } from "../../helpers/validations"
 
 export default function AddHotel(props) {
-  const imageRef = useRef()
   const [form, setForm] = useState({
-    name: "",
-    description: "",
-    city: "",
-    rooms: "",
-    features: [],
-    image: null,
-    status: 0,
+    name: {
+      value: "",
+      error: "",
+      showError: false,
+      rules: ["required", { rule: "min", length: 4 }],
+    },
+    description: {
+      value: "",
+      error: "",
+      showError: false,
+      rules: ["required", { rule: "min", length: 10 }],
+    },
+    city: {
+      value: "",
+      error: "",
+      showError: false,
+      rules: ["required"],
+    },
+    rooms: {
+      value: 2,
+      error: "",
+      showError: false,
+      rules: ["required"],
+    },
+    features: {
+      value: [],
+      error: "",
+      showError: false,
+    },
+    image: {
+      value: null,
+      error: "",
+      showError: false,
+    },
+    status: {
+      value: 0,
+      error: "",
+      showError: false,
+      rules: ["required"],
+    },
   })
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const submit = e => {
     setLoading(true)
     e.preventDefault()
-    
+
     setTimeout(() => {
-        setLoading(false)
+      setLoading(false)
     }, 500)
   }
-
-  const changeFeatureHandler = e => {
-    const value = e.target.value;
-    const isChecked = e.target.checked
-
-    if (isChecked) {
-        const newFeatures = [...form.features, value]
-        setForm ({...form, features: newFeatures})
-    } else {
-        const newFeatures = form.features.filter(x => x !== value);
-        setForm({...form, features: newFeatures})
-    }
+  const changeHandler = (value, fieldName) => {
+    const error = validate(form[fieldName].rules, value)
+    setForm({
+      ...form,
+      [fieldName]: {
+        ...form[fieldName],
+        value,
+        showError: true,
+        error: error,
+      },
+    })
   }
- 
+
   return (
     <div className='container p-0'>
       <div className='card'>
         <div className='card-header'>Nowy Hotel</div>
         <div className='card-body'>
           <form onSubmit={submit}>
-            <div className='form-group mb-3'>
-              <label className='ps-1'>Nazwa:</label>
-              <input
-                value={form.name}
-                onChange={e => setForm({...form, name: e.target.value})}
-                type='text'
-                className={`form-control ${false ? "is-invalid" : ""}`}
-              />
-              <div className='invalid-feedback'>Błąd</div>
-              <div className='form-group mb-3'>
-                <label className='ps-1'>Opis:</label>
-                <textarea
-                  type='text'
-                  value={form.description}
-                  onChange={e => setForm({...form, description: e.target.value})}
-                  className={`form-control ${false ? "is-invalid" : ""}`}
-                />
-                <div className='invalid-feedback'>Błąd</div>
-              </div>
-            </div>
-            <div className='form-group mb-3'>
-              <label className='ps-1'>Miejscowość:</label>
-              <input
-                type='text'
-                value={form.city}
-                onChange={e => setForm({...form, city: e.target.value})}
-                className={`form-control ${false ? "is-invalid" : ""}`}
-              />
-              <div className='invalid-feedback'>Błąd</div>
-            </div>
-            <div className='form-group mb-3'>
-              <label className='ps-1'>Ilość pokoi:</label>
-              <select
-                className='form-select'
-                value={form.rooms}
-                onChange={e => setForm({...form, rooms: e.target.value})}>
-                <option selected>Wybierz ilość:</option>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-              </select>
-              <div className='invalid-feedback'>Błąd</div>
-            </div>
+            <Input
+              label='Nazwa'
+              value={form.name.value}
+              onChange={val => changeHandler(val, "name")}
+              error={form.name.error}
+              showError={form.name.showError}
+            />
+            <Input
+              label='Opis:'
+              value={form.description.value}
+              type='textarea'
+              onChange={val => changeHandler(val, "description")}
+              error={form.description.error}
+              showError={form.description.showError}
+            />
+            <Input
+              label='Miejscowość'
+              value={form.city.value}
+              onChange={val => changeHandler(val, "city")}
+              error={form.city.error}
+              showError={form.city.showError}
+            />
+            <Input
+              label='Ilość pokoi'
+              value={form.rooms.value}
+              type='select'
+              onChange={val => changeHandler(val, "rooms")}
+              options={[
+                { value: 1, label: 1 },
+                { value: 2, label: 2 },
+                { value: 3, label: 3 },
+                { value: 4, label: 4 },
+              ]}
+              error={form.rooms.error}
+              showError={form.rooms.showError}
+            />
 
             <div className='form-group mb-3'>
               <h5 className='p-1'>Udogodnienia:</h5>
-
-              <div className='form-check'>
-                <input
-                  className='form-check-input'
-                  type='checkbox'
-                  value='tv'
-                  id='flexCheckDefault'
-                  checked={form.features.find(x => x === "tv")}
-                  onChange={changeFeatureHandler}
-                />
-                <label
-                  className='form-check-label'
-                  for='flexCheckDefault'>
-                  TV
-                </label>
-              </div>
-
-              <div className='form-check'>
-                <input
-                  className='form-check-input'
-                  type='checkbox'
-                  value='wifi'
-                  id='flexCheckDefault'
-                  checked={form.features.find(x => x === "wifi")}
-                  onChange={changeFeatureHandler}
-
-                />
-                <label
-                  className='form-check-label'
-                  for='flexCheckDefault'>
-                  WiFi
-                </label>
-              </div>
-
-              <div className='form-check'>
-                <input
-                  className='form-check-input'
-                  type='checkbox'
-                  value='parking'
-                  id='flexCheckDefault'
-                  checked={form.features.find(x => x === "parking")}
-                  onChange={changeFeatureHandler}
-
-                />
-                <label
-                  className='form-check-label'
-                  for='flexCheckDefault'>
-                  Parking
-                </label>
-              </div>
+              <Input
+                type='checkbox'
+                value={form.features.value}
+                onChange={val => changeHandler(val, "features")}
+                options={[
+                  { value: "tv", label: "TV" },
+                  { value: "wifi", label: "WiFi" },
+                  { value: "parking", label: "Parking" },
+                ]}
+              />
             </div>
 
             <div className='form-group mb-3'>
               <h5 className='ps-1 pb-2'>Zdjęcie: </h5>
-              <input
+              <Input
                 type='file'
-                onChange={e => setForm({...form, image: e.target.files})}
-                ref={imageRef}
+                onChange={val => changeHandler(val, "image")}
+                error={form.image.error}
+                showError={form.image.showError}
               />
             </div>
 
             <div className='form-group mb-3'>
               <h5 className='ps-1'>Status: </h5>
-              <div class='form-check'>
-                <input
-                  className='form-check-input'
-                  type='radio'
-                  value='1'
-                  onChange={e => setForm({...form, status: e.target.value})}
-                  checked={form.status == 1}
-                />
-                <label
-                  className='form-check-label'
-                  for='flexRadioDefault1'>
-                  Aktywny
-                </label>
-              </div>
-              <div className='form-check'>
-                <input
-                  className='form-check-input'
-                  type='radio'
-                  value='0'
-                  onChange={e => setForm({...form, status: e.target.value})}
-                  checked={form.status == 0}
-                />
-                <label
-                  className='form-check-label'
-                  for='flexRadioDefault1'>
-                  Ukryty
-                </label>
-              </div>
+
+              <Input
+                type='radio'
+                name='status'
+                value={form.status.value}
+                onChange={val => changeHandler(val, "status")}
+                options={[
+                  { value: "1", label: "Aktywny" },
+                  { value: "0", label: "Ukryty" },
+                ]}
+                error={form.status.error}
+                showError={form.status.showError}
+              />
             </div>
 
             <div className='d-flex justify-content-center'>

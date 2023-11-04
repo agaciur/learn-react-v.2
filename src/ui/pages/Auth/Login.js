@@ -43,7 +43,7 @@ export default function Login() {
             className='form-control'
           />
         </div>
-        <div class='mb-3'>
+        <div className='mb-3'>
           <label>Hasło:</label>
           <input
             type='password'
