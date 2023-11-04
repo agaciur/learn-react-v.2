@@ -48,6 +48,9 @@ export default function AddHotel(props) {
   })
   const [loading, setLoading] = useState(false)
 
+  const valid = Object.values(form).map(input => input.error).filter(error => error).length
+
+
   const submit = e => {
     setLoading(true)
     e.preventDefault()
@@ -64,10 +67,11 @@ export default function AddHotel(props) {
         ...form[fieldName],
         value,
         showError: true,
-        error: error,
+        error: error
       },
     })
   }
+  
 
   return (
     <div className='container p-0'>
@@ -156,7 +160,9 @@ export default function AddHotel(props) {
             <div className='d-flex justify-content-center'>
               <LoadingButton
                 loading={loading}
-                className='btn-success'>
+                className='btn-success'
+                disabled={valid}
+                >
                 Dodaj hotel
               </LoadingButton>
             </div>

@@ -46,14 +46,24 @@ function Menu() {
           </li>
         </>
       ) : (
-        <li>
-          <a
-            href=''
-            className='text-decoration-none text-info-emphasis ms-3'
-            onClick={login}>
-            Zaloguj
-          </a>
-        </li>
+        <>
+          <li>
+            <NavLink
+              to='/rejestracja'
+              className='text-decoration-none text-info-emphasis ms-3'
+              activeClassName='text-decoration-underline'>
+              Zarejestruj
+            </NavLink>
+          </li>
+          <li>
+            <a
+              href='#'
+              className='text-decoration-none text-info-emphasis ms-3'
+              onClick={login}>
+              Zaloguj
+            </a>
+          </li>
+        </>
       )}
     </ul>
   )

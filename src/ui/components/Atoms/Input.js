@@ -1,20 +1,18 @@
 import { useRef } from "react"
 const InputText = props => {
   return (
-    <div className="form-group">
-      <label>{props.label}</label>
-      <input 
+    <div className='form-group'>
+      <label className="mt-2">{props.label}</label>
+      <input
         value={props.value}
         onChange={e => props.onChange(e.target.value)}
-        type={props.type} 
-        className={`form-control ${props.error && props.showError ? 'is-invalid' : ''}`} />
-      <div className="invalid-feedback">
-        {props.error}
-      </div>
+        type={props.type}
+        className={`form-control ${props.error && props.showError ? "is-invalid" : ""}`}
+      />
+      <div className='invalid-feedback'>{props.error}</div>
     </div>
-  );
+  )
 }
-
 
 const InputTextarea = props => {
   return (
@@ -135,6 +133,10 @@ function Input(props) {
   switch (props.type) {
     case "textarea":
       return <InputTextarea {...props} />
+    case "password":
+      return <InputText {...props} type='password' />
+    case "password":
+      return <InputText {...props} type='email' />
     case "select":
       return <InputSelect {...props} />
     case "checkbox":
