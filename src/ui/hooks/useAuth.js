@@ -12,6 +12,7 @@ export default function useAuth() {
       }
     } else {
       authContext.logout()
+      window.localStorage.removeItem("token-data")
     }
   }
   return [auth, setAuth]

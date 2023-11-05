@@ -2,6 +2,7 @@ import { useState } from "react"
 import useAuth from "../../hooks/useAuth"
 import { useHistory } from "react-router-dom"
 import LoadingButton from "../../components/Atoms/LoadingButton"
+import axios from "axios"
 
 export default function Login() {
   const [auth, setAuth] = useAuth()
@@ -10,29 +11,43 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [valid, setValid] = useState(null)
+  const [error, setError] = useState("")
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault()
     setLoading(true)
 
-    setTimeout(() => {
-      if (true) {
-        setAuth(true)
-        history.push("/")
-      } else {
-        setValid(false);
-        setPassword('');
-      }
+    try {
+      const res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA0l3UvoFC_IkYGzzK90ODLRWPwmE1q7HI",
+        {
+          email,
+          password,
+          returnSecureToken: true,
+        }
+      )
+      console.log(res)
+      setAuth(true, {
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.lokalId,
+      })
+      history.push("/")
+    } catch (ex) {
+      console.log(ex.response)
+
+      setError("Podane dane logowania są niepoprawne")
       setLoading(false)
-    }, 500)
+    }
+  }
+  if (auth) {
+    history.push('/')
   }
 
   return (
     <div className='container p-0'>
       <h2 className='py-4'>Logowanie</h2>
-      {valid === false ? (
-        <div className="alert alert-danger">Niepoprawne dane logowania</div>
-      ) : null }
+      {valid === false ? <div className='alert alert-danger'>Niepoprawne dane logowania</div> : null}
       <form onSubmit={submit}>
         <div className='mb-3'>
           <label>Adres email:</label>
@@ -47,10 +62,12 @@ export default function Login() {
           <label>Hasło:</label>
           <input
             type='password'
+            value={password}
             onChange={e => setPassword(e.target.value)}
             className='form-control'
           />
         </div>
+        {error ? <div className='alert alert-danger mt-3'>{error}</div> : null}
         <LoadingButton loading={loading}>Zaloguj się</LoadingButton>
       </form>
     </div>

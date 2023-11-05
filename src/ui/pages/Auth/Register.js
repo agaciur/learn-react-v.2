@@ -24,8 +24,9 @@ export default function Register(props) {
       rules: ["required", { rule: "min", length: 6 }],
     },
   })
+  const [error, setError] = useState("")
 
-  const valid = Object.values(form)
+  let valid = Object.values(form)
     .map(input => input.error)
     .filter(error => error).length
 
@@ -33,16 +34,29 @@ export default function Register(props) {
     setLoading(true)
     e.preventDefault()
 
-    const res = await axios.post(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0l3UvoFC_IkYGzzK90ODLRWPwmE1q7HI",
-      {
-        email: form.email.value,
-        password: form.password.value,
-        returnSecureToken: true,
+    try {
+      const res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0l3UvoFC_IkYGzzK90ODLRWPwmE1q7HI",
+        {
+          email: form.email.value,
+          password: form.password.value,
+          returnSecureToken: true,
+        }
+      )
+      setAuth(true, {
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.lokalId
+      })
+      history.push("/")
+    } catch (ex) {
+      const newError = ex.response.data.error.message
+      if (newError === "EMAIL_EXISTS") {
+        setError('Podany email już istnieje') ;
       }
-    )
-    setAuth(true, res.data)
-    history.push('/')
+      console.log(ex.response)
+    }
+
     setLoading(false)
   }
 
@@ -59,8 +73,8 @@ export default function Register(props) {
     })
   }
 
-  if(auth) {
-    history.push('/')
+  if (auth) {
+    history.push("/")
   }
 
   return (
@@ -85,6 +99,7 @@ export default function Register(props) {
               error={form.password.error}
               showError={form.password.showError}
             />
+            {error ? <div className='alert alert-danger mt-3'>{error}</div> : null}
 
             <div className='d-flex justify-content-center'>
               <LoadingButton
