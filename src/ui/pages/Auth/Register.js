@@ -1,36 +1,49 @@
 import { useState } from "react"
 import LoadingButton from "../../components/Atoms/LoadingButton"
-import { validate } from '../../helpers/validations'
+import { validate } from "../../helpers/validations"
 import Input from "../../components/Atoms/Input"
+import axios from "axios"
+import useAuth from "../../hooks/useAuth"
+import { useHistory } from "react-router-dom"
 
 export default function Register(props) {
+  const history = useHistory()
+  const [auth, setAuth] = useAuth()
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
     email: {
       value: "",
       error: "",
-      valid: false,
       showError: false,
       rules: ["required", "email"],
     },
     password: {
       value: "",
       error: "",
-      valid: false,
       showError: false,
-      rules: ["required",'check'],
+      rules: ["required", { rule: "min", length: 6 }],
     },
   })
 
-const valid = Object.values(form).map(input => input.error).filter(error => error).length
+  const valid = Object.values(form)
+    .map(input => input.error)
+    .filter(error => error).length
 
-  const submit = e => {
+  const submit = async e => {
     setLoading(true)
     e.preventDefault()
 
-    setTimeout(() => {
-      setLoading(false)
-    }, 500)
+    const res = await axios.post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0l3UvoFC_IkYGzzK90ODLRWPwmE1q7HI",
+      {
+        email: form.email.value,
+        password: form.password.value,
+        returnSecureToken: true,
+      }
+    )
+    setAuth(true, res.data)
+    history.push('/')
+    setLoading(false)
   }
 
   const changeHandler = (value, fieldName) => {
@@ -42,11 +55,14 @@ const valid = Object.values(form).map(input => input.error).filter(error => erro
         value,
         showError: true,
         error: error,
-        valid: true
       },
     })
   }
-  
+
+  if(auth) {
+    history.push('/')
+  }
+
   return (
     <div className='container p-0'>
       <div className='card'>
@@ -74,8 +90,7 @@ const valid = Object.values(form).map(input => input.error).filter(error => erro
               <LoadingButton
                 loading={loading}
                 className='btn-success mt-4'
-                disabled={valid}
-              >
+                disabled={valid}>
                 Zarejestruj się
               </LoadingButton>
             </div>

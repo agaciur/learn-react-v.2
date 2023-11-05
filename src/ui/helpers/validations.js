@@ -12,14 +12,14 @@ const availableRules = {
     return value.length > rule.length ? "" : `Min. znaków: ${rule.length}`
   },
   email(value) {
-     return validateEmail(value) ? "" : 'Niepoprawny email'
-  }
+    return validateEmail(value) ? "" : "Niepoprawny email"
+  },
 }
 
 export function validate(rules = [], value) {
   for (let i = 0; i < rules.length; i++) {
-    const rule = rules[i];
-    
+    const rule = rules[i]
+
     if (rule instanceof Object) {
       const errorMessage = availableRules[rule.rule](value, rule)
       if (errorMessage) {
@@ -32,6 +32,6 @@ export function validate(rules = [], value) {
       }
     }
   }
-  return ''
+  return ""
 }
-// 
+//
