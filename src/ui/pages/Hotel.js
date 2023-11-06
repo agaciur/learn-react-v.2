@@ -5,7 +5,7 @@ import useWebsiteTitle from "../hooks/useWebsiteTitle"
 
 export default function Hotel(props) {
   const { id } = useParams()
-  const [hotel, setHotel] = useState({})
+  const [hotel, setHotel] = useState(null)
   const [loading, setLoading] = useState(true)
  const setTitle = useWebsiteTitle()
 

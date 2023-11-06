@@ -2,7 +2,8 @@ import { useState } from "react"
 import useAuth from "../../hooks/useAuth"
 import { useHistory } from "react-router-dom"
 import LoadingButton from "../../components/Atoms/LoadingButton"
-import axios from "axios"
+import axios from '../../../axios-auth'
+
 
 export default function Login() {
   const [auth, setAuth] = useAuth()
@@ -19,7 +20,7 @@ export default function Login() {
 
     try {
       const res = await axios.post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA0l3UvoFC_IkYGzzK90ODLRWPwmE1q7HI",
+        "accounts:signInWithPassword",
         {
           email,
           password,
@@ -27,7 +28,7 @@ export default function Login() {
         }
       )
       console.log(res)
-      setAuth(true, {
+      setAuth({
         email: res.data.email,
         token: res.data.idToken,
         userId: res.data.lokalId,

@@ -2,7 +2,7 @@ import { useState } from "react"
 import LoadingButton from "../../components/Atoms/LoadingButton"
 import { validate } from "../../helpers/validations"
 import Input from "../../components/Atoms/Input"
-import axios from "axios"
+import axios from '../../../axios-auth'
 import useAuth from "../../hooks/useAuth"
 import { useHistory } from "react-router-dom"
 
@@ -36,14 +36,14 @@ export default function Register(props) {
 
     try {
       const res = await axios.post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0l3UvoFC_IkYGzzK90ODLRWPwmE1q7HI",
+        "/accounts:signUp",
         {
           email: form.email.value,
           password: form.password.value,
           returnSecureToken: true,
         }
       )
-      setAuth(true, {
+      setAuth({
         email: res.data.email,
         token: res.data.idToken,
         userId: res.data.lokalId
