@@ -8,7 +8,7 @@ import Layout from "./ui/components/Layout"
 import ThemeContext from "./ui/context/ThemeContext"
 import AuthContext from "./ui/context/AuthContext"
 import InspiringQuote from "./ui/components/Atoms/InspiringQuote"
-import { useReducer, lazy, Suspense, useEffect } from "react"
+import { useReducer, lazy, Suspense } from "react"
 import { reducer, initialState } from "./ui/components/reducer"
 import Home from "./ui/pages/Home"
 import ReducerContext from "./ui/context/ReducerContext"
@@ -18,7 +18,7 @@ import NotFound from "./ui/pages/NotFound"
 import Login from "./ui/pages/Auth/Login"
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute"
 import ErrorBoundary from "./hoc/ErrorBoundary"
-import AddHotel from "./ui/components/Molecules/AddHotel"
+import AddHotel from "./ui/pages/AddHotel"
 import Register from "./ui/pages/Auth/Register"
 const Profile = lazy(() => import("./ui/pages/Profile"))
 
@@ -83,10 +83,10 @@ function App() {
   return (
     <Router>
       <AuthContext.Provider
-        value={{
-          user: state.user,
-          login: (user) => dispatch({ type: "login", user }),
-          logout: () => dispatch({ type: "logout" }),
+       value={{ 
+        user: state.user,
+        login: (user) => dispatch({ type: 'login', user }),
+        logout: () => dispatch({ type: 'logout' }),
         }}>
         <ThemeContext.Provider
           value={{

@@ -26,13 +26,13 @@ export default function Register(props) {
   })
   const [error, setError] = useState("")
 
-  let valid = Object.values(form)
+  const valid = !Object.values(form)
     .map(input => input.error)
     .filter(error => error).length
 
   const submit = async e => {
-    setLoading(true)
     e.preventDefault()
+    setLoading(true)
 
     try {
       const res = await axios.post(
@@ -46,8 +46,9 @@ export default function Register(props) {
       setAuth({
         email: res.data.email,
         token: res.data.idToken,
-        userId: res.data.lokalId
+        userId: res.data.lokalId,
       })
+  
       history.push("/")
     } catch (ex) {
       const newError = ex.response.data.error.message
@@ -105,7 +106,7 @@ export default function Register(props) {
               <LoadingButton
                 loading={loading}
                 className='btn-success mt-4'
-                disabled={valid}>
+                disabled={!valid}>
                 Zarejestruj się
               </LoadingButton>
             </div>

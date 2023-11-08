@@ -2,23 +2,42 @@ import { useEffect, useState } from "react"
 import LoadingButton from "../components/Atoms/LoadingButton"
 import { validateEmail } from "../helpers/validations"
 import useAuth from "../hooks/useAuth"
+import axios from "../../axios-auth"
 
 export default function ProfileSettings(props) {
-  const [auth] = useAuth()
+  const [auth, setAuth] = useAuth()
   const [email, setEmail] = useState(auth.email)
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({ email: "", password: "" })
 
   const buttonDisabled = Object.values(errors).filter(x => x).length
+  // console.log( window.localStorage)
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault()
     setLoading(true)
+    try {
+      const data = {
+        idToken: auth.token,
+        email: email,
+        returnSecureToken: true,
+      }
+      if (password) {
+        data.password = password
+      }
 
-    setTimeout(() => {
-      setLoading(false)
-    }, 500)
+      const res = await axios.post("accounts:update", data)
+      // console.log(res)
+      setAuth({
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.localId,
+      })
+    } catch (ex) {
+      console.log(ex.response)
+    }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -51,7 +70,6 @@ export default function ProfileSettings(props) {
           />
           <div className='invalid-feedback'>{errors.email}</div>
           <div className='valid-feedback'>Poprawny email</div>
-
         </div>
         <div className='mb-3'>
           <label>Hasło:</label>

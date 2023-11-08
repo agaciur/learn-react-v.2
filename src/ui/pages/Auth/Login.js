@@ -2,10 +2,9 @@ import { useState } from "react"
 import useAuth from "../../hooks/useAuth"
 import { useHistory } from "react-router-dom"
 import LoadingButton from "../../components/Atoms/LoadingButton"
-import axios from '../../../axios-auth'
+import axios from "../../../axios-auth"
 
-
-export default function Login() {
+export default function Login(props) {
   const [auth, setAuth] = useAuth()
   const [email, setEmail] = useState("")
   const history = useHistory()
@@ -19,30 +18,28 @@ export default function Login() {
     setLoading(true)
 
     try {
-      const res = await axios.post(
-        "accounts:signInWithPassword",
-        {
-          email,
-          password,
-          returnSecureToken: true,
-        }
-      )
+      const res = await axios.post("accounts:signInWithPassword", {
+        email,
+        password,
+        returnSecureToken: true,
+      })
       console.log(res)
       setAuth({
         email: res.data.email,
         token: res.data.idToken,
-        userId: res.data.lokalId,
+        userId: res.data.localId,
       })
+      console.log(res.data.localId)
       history.push("/")
     } catch (ex) {
       console.log(ex.response)
 
-      setError("Podane dane logowania są niepoprawne")
       setLoading(false)
+      setError("Podane dane logowania są niepoprawne")
     }
   }
   if (auth) {
-    history.push('/')
+    history.push("/")
   }
 
   return (

@@ -1,9 +1,14 @@
 import { useState } from "react"
-import LoadingButton from "../Atoms/LoadingButton"
-import Input from "../Atoms/Input"
-import { validate } from "../../helpers/validations"
+import LoadingButton from "../components/Atoms/LoadingButton"
+import Input from "../components/Atoms/Input"
+import { validate } from "../helpers/validations"
+import axios from "../../axios"
+import { useHistory } from "react-router-dom"
+import useAuth from "../hooks/useAuth"
 
 export default function AddHotel(props) {
+  const [auth] = useAuth()
+  const history = useHistory()
   const [form, setForm] = useState({
     name: {
       value: "",
@@ -48,16 +53,28 @@ export default function AddHotel(props) {
   })
   const [loading, setLoading] = useState(false)
 
-  const valid = Object.values(form).map(input => input.error).filter(error => error).length
+  const valid = Object.values(form)
+    .map(input => input.error)
+    .filter(error => error).length
 
-
-  const submit = e => {
+  const submit = async e => {
     setLoading(true)
     e.preventDefault()
-
-    setTimeout(() => {
-      setLoading(false)
-    }, 500)
+    try {
+      await axios.post("/hotels.json", {
+        name: form.name.value,
+        descrition: form.description.value,
+        city: form.city.value,
+        rooms: form.rooms.value,
+        features: form.features.value,
+        status: form.status.value,
+        user_id: auth.userId
+      })
+      history.push("profil/hotele")
+    } catch (ex) {
+      console.log(ex.response)
+    }
+    setLoading(false)
   }
   const changeHandler = (value, fieldName) => {
     const error = validate(form[fieldName].rules, value)
@@ -67,11 +84,10 @@ export default function AddHotel(props) {
         ...form[fieldName],
         value,
         showError: true,
-        error: error
+        error: error,
       },
     })
   }
-  
 
   return (
     <div className='container p-0'>
@@ -161,8 +177,7 @@ export default function AddHotel(props) {
               <LoadingButton
                 loading={loading}
                 className='btn-success'
-                disabled={valid}
-                >
+                disabled={valid}>
                 Dodaj hotel
               </LoadingButton>
             </div>

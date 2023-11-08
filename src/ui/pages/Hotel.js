@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import LoadingIcon from "../components/Atoms/LoadingIcon"
 import useWebsiteTitle from "../hooks/useWebsiteTitle"
+import axios from "../../axios"
+import { objectToArrayWithId } from "../helpers/objects"
 
 export default function Hotel(props) {
   const { id } = useParams()
@@ -9,25 +11,19 @@ export default function Hotel(props) {
   const [loading, setLoading] = useState(true)
  const setTitle = useWebsiteTitle()
 
-  const fetchHotel = () => {
-    setHotel({
-      id: 2,
-      name: "Hotel pod zorzami",
-      city: "Oslo",
-      rating: "8.3",
-      description:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum reiciendis ipsam nesciunt culpa dolor in repellat fugiat maxime explicabo eos?",
-      image: "https://cdn.pixabay.com/photo/2021/12/11/07/59/hotel-6862159_1280.jpg",
-    })
-    setTitle('Hotel pod zorzami')
+  const fetchHotel = async () => {
+    try {
+      const res = await axios.get(`/hotels/${id}.json`)
+      setHotel(res.data)
+      setTitle('Hotel: ' + res.data.name)
+    } catch (ex) {
+      console.log(ex.response)
+    }
     setLoading(false)
   }
 
   useEffect(() => {
-  
-    setTimeout(() => {
       fetchHotel()
-    }, 500)
   }, [])
 
 
