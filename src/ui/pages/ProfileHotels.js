@@ -18,11 +18,6 @@ export default function ProfileHotels(props) {
       console.log(ex.response)
     }
   }
-
-  useEffect(() => {
-    fetchHotels()
-  }, [])
-
   const deleteHotel = async id => {
     try {
       await axios.delete(`/hotels/${id}.json`)
@@ -31,6 +26,9 @@ export default function ProfileHotels(props) {
       console.log(ex.response)
     }
   }
+  useEffect(() => {
+    fetchHotels()
+  }, [])
 
   return (
     <div>
@@ -39,6 +37,7 @@ export default function ProfileHotels(props) {
           <thead>
             <tr>
               <th>Nazwa</th>
+              <th>Status</th>
               <th>Opcje</th>
             </tr>
           </thead>
@@ -46,8 +45,17 @@ export default function ProfileHotels(props) {
             {hotels.map(hotel => (
               <tr>
                 <td>{hotel.name}</td>
+                {hotel.status == 1 ? (
+                  <td className='text-success'>Aktywny</td>
+                ) : (
+                  <td className='text-danger'>Ukryty</td>
+                )}
                 <td>
-                  <button className='btn btn-sm btn-warning me-2'>Edytuj</button>
+                  <Link
+                    to={`/profil/hotele/edytuj/${hotel.id}`}
+                    className='btn btn-sm btn-warning me-2'>
+                    Edytuj
+                  </Link>
                   <button
                     onClick={() => deleteHotel(hotel.id)}
                     className='btn btn-sm btn-danger'>

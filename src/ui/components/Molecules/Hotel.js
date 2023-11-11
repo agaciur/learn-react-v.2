@@ -3,32 +3,31 @@ import ThemeContext from "../../context/ThemeContext"
 import { useContext } from "react"
 import useAuth from "../../hooks/useAuth"
 import { Link } from "react-router-dom"
-
+import { image } from "../Atoms/Images"
 
 const propTypes = {
   name: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
   // rating: PropTypes.string.isRequired,
-  // description: PropTypes.string.isRequired,
-  // image: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 }
 function Hotel(props) {
   const [auth] = useAuth()
   const theme = useContext(ThemeContext)
 
   const clickHandler = e => {
-    // e.preventDefault()
     if (props.onOpen) {
       props.onOpen(props)
     }
   }
+
 
   return (
     <div className='m-3 border border-info-emphasis m-1'>
       <div className='row g-0'>
         <div className='col-lg-5'>
           <img
-            src='https://cdn.pixabay.com/photo/2021/12/11/07/59/hotel-6862159_1280.jpg'
+            src={image()}
             className='img-fluid'
             style={{
               height: "100%",
@@ -49,7 +48,7 @@ function Hotel(props) {
                 <p className='pt-2'>{props.city}</p>
               </div>
               <p className='fs-5'>
-                Ocena: <span className='fs-4'>{props.raiting ?? 0}</span>
+                Ocena: {props.rating ?? 0}
               </p>
             </div>
             <div className='d-grid gap-2 d-md-flex mb-3 justify-content-md-end'>
@@ -70,3 +69,4 @@ function Hotel(props) {
 }
 Hotel.propTypes = propTypes
 export default Hotel
+

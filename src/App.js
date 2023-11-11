@@ -19,6 +19,7 @@ import Login from "./ui/pages/Auth/Login"
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute"
 import ErrorBoundary from "./hoc/ErrorBoundary"
 import AddHotel from "./ui/pages/AddHotel"
+import EditHotel from './ui/pages/EditHotel'
 import Register from "./ui/pages/Auth/Register"
 const Profile = lazy(() => import("./ui/pages/Profile"))
 
@@ -46,6 +47,10 @@ function App() {
             <AuthenticatedRoute
               path='/profil/hotele/dodaj'
               component={AddHotel}
+            />
+            <AuthenticatedRoute
+              path='/profil/hotele/edytuj/:id'
+              component={EditHotel}
             />
             <AuthenticatedRoute
               path='/profil'
@@ -83,10 +88,10 @@ function App() {
   return (
     <Router>
       <AuthContext.Provider
-       value={{ 
-        user: state.user,
-        login: (user) => dispatch({ type: 'login', user }),
-        logout: () => dispatch({ type: 'logout' }),
+        value={{
+          user: state.user,
+          login: user => dispatch({ type: "login", user }),
+          logout: () => dispatch({ type: "logout" }),
         }}>
         <ThemeContext.Provider
           value={{
