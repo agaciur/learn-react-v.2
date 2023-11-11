@@ -48,8 +48,9 @@ export default function Login(props) {
       {valid === false ? <div className='alert alert-danger'>Niepoprawne dane logowania</div> : null}
       <form onSubmit={submit}>
         <div className='mb-3'>
-          <label>Adres email:</label>
+          <label htmlFor='email-input'>Adres email:</label>
           <input
+            id='email-input'
             type='email'
             value={email}
             onChange={e => setEmail(e.target.value)}
