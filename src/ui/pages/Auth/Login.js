@@ -18,22 +18,19 @@ export default function Login(props) {
     setLoading(true)
 
     try {
-      const res = await axios.post("accounts:signInWithPassword", {
+      const res = await axios.post('accounts:signInWithPassword', {
         email,
         password,
         returnSecureToken: true,
       })
-      console.log(res)
       setAuth({
         email: res.data.email,
         token: res.data.idToken,
         userId: res.data.localId,
       })
-      console.log(res.data.localId)
       history.push("/")
     } catch (ex) {
       console.log(ex.response)
-
       setLoading(false)
       setError("Podane dane logowania są niepoprawne")
     }

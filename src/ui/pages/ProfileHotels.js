@@ -43,9 +43,9 @@ export default function ProfileHotels(props) {
           </thead>
           <tbody>
             {hotels.map(hotel => (
-              <tr>
+              <tr key={hotel.id}>
                 <td>{hotel.name}</td>
-                {hotel.status == 1 ? (
+                {parseInt(hotel.status) === 1 ? (
                   <td className='text-success'>Aktywny</td>
                 ) : (
                   <td className='text-danger'>Ukryty</td>

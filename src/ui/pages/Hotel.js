@@ -40,6 +40,7 @@ export default function Hotel(props) {
     fetchHotel()
   }, [])
 
+
   return loading ? (
     <LoadingIcon />
   ) : (

@@ -2,7 +2,7 @@ import { useRef } from "react"
 const InputText = props => {
   return (
     <div className='form-group'>
-      <label className="mt-2">{props.label}</label>
+      <label className='mt-2'>{props.label}</label>
       <input
         value={props.value}
         onChange={e => props.onChange(e.target.value)}
@@ -32,12 +32,9 @@ const InputTextarea = props => {
 const InputSelect = props => {
   return (
     <div className='form-group mb-3'>
-      <label
-        className='ps-1'
-        key={props.value}>
-        {props.label}
-      </label>
+      <label className='ps-1'>{props.label}</label>
       <select
+        key={props.value}
         type={props.type}
         value={props.value}
         onChange={e => props.onChange(e.target.value)}
@@ -93,13 +90,14 @@ const InputRadio = props => {
   return (
     <>
       {props.options.map(option => (
-        <div className='form-check'>
+        <div
+          className='form-check'
+          key={option.value}>
           <input
             className='form-check-input'
             type='radio'
             value={option.value}
             name={props.name}
-            key={option.value}
             id={`radio-${option.value}-${props.name}`}
             checked={props.value == option.value}
             onChange={e => props.onChange(e.target.value)}
@@ -134,9 +132,19 @@ function Input(props) {
     case "textarea":
       return <InputTextarea {...props} />
     case "password":
-      return <InputText {...props} type='password' />
+      return (
+        <InputText
+          {...props}
+          type='password'
+        />
+      )
     case "password":
-      return <InputText {...props} type='email' />
+      return (
+        <InputText
+          {...props}
+          type='email'
+        />
+      )
     case "select":
       return <InputSelect {...props} />
     case "checkbox":
