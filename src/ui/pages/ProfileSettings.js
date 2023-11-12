@@ -26,7 +26,7 @@ export default function ProfileSettings(props) {
       if (password) {
         data.password = password
       }
-
+      console.log(data)
       const res = await axios.post("accounts:update", data)
       // console.log(res)
       setAuth({
@@ -49,10 +49,10 @@ export default function ProfileSettings(props) {
   }, [email])
 
   useEffect(() => {
-    if (password.length > 4 || password.length === 0) {
+    if (password.length >= 6 || password.length === 0) {
       setErrors({ ...errors, password: "" })
     } else {
-      setErrors({ ...errors, password: "Wymagane 5 znaków" })
+      setErrors({ ...errors, password: "Wymagane conajmniej 6 znaków" })
     }
   }, [password])
 

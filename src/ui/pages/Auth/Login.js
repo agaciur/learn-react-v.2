@@ -18,7 +18,7 @@ export default function Login(props) {
     setLoading(true)
 
     try {
-      const res = await axios.post('accounts:signInWithPassword', {
+      const res = await axios.post("accounts:signInWithPassword", {
         email,
         password,
         returnSecureToken: true,

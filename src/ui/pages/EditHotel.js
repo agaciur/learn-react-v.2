@@ -13,7 +13,7 @@ export default function EditHotel(props) {
 
   const submit = async form => {
     await axios.patch(`/hotels/${id}.json?auth=${auth.token}`, form)
-    history.push("profil/hotele")
+    history.push("/profil/hotele")
   }
 
   const fetchHotel = async () => {

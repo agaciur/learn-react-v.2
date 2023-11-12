@@ -11,7 +11,7 @@ function Searchbar(props) {
   const history = useHistory()
 
   const search = () => {
-    history.push(`wyszukaj/${term}`)
+    history.push(`/wyszukaj/${term}`)
   }
 
   const onKeyDownHendler = e => {

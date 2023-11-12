@@ -32,9 +32,12 @@ const InputTextarea = props => {
 const InputSelect = props => {
   return (
     <div className='form-group mb-3'>
-      <label className='ps-1'>{props.label}</label>
+      <label
+        className='ps-1'
+        key={props.value}>
+        {props.label}
+      </label>
       <select
-        key={props.value}
         type={props.type}
         value={props.value}
         onChange={e => props.onChange(e.target.value)}
